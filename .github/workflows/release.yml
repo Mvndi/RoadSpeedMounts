@@ -22,7 +22,9 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
       # build
       - name: Build with Gradle Wrapper
-        run: ./gradlew assemble
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assemble
         env:
           MVNDI_MVN_USER: ${{ secrets.MVNDI_MVN_USER }}
           MVNDI_MVN_KEY: ${{ secrets.MVNDI_MVN_KEY }}
