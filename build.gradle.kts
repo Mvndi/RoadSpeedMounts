@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "net.mvndicraft.roadspeedmounts"
-version = "1.0.0"
+version = "1.0.1"
 description = "Increase mouts (horse, cammel etc.) speed when riding over specific blocks"
 java.sourceCompatibility = JavaVersion.VERSION_21
 var mainMinecraftVersion = "1.21.11"

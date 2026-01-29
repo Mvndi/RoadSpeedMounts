@@ -1,3 +1,6 @@
+# 1.0.1
+If player gamemode has switch, the speed bonus will be reset to 0.
+
 # 1.0.0
 Animals speed is modified when a player is riding them and they are a over specific block materials.
 Default config speed up horses over gravel and slow down horses over sand.

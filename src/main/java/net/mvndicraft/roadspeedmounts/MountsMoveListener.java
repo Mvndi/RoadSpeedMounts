@@ -10,10 +10,17 @@ public class MountsMoveListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onMountsMove(PlayerMoveEvent event) {
         Entity mounts = event.getPlayer().getVehicle();
-        if (mounts != null && RoadSpeed.isPassengersAffected(mounts.getPassengers())) {
-            RoadSpeedMountsPlugin.debug(() -> "Passenger affected: " + mounts.getPassengers());
-            if (mounts instanceof Attributable attributable) {
-                RoadSpeed.applyRoadSpeed(attributable, RoadSpeed.getRoadSpeed(mounts));
+        if (mounts != null) {
+            if (RoadSpeed.isPassengersAffected(mounts.getPassengers())) {
+                RoadSpeedMountsPlugin.debug(() -> "Passenger affected: " + mounts.getPassengers());
+                if (mounts instanceof Attributable attributable) {
+                    RoadSpeed.applyRoadSpeed(attributable, RoadSpeed.getRoadSpeed(mounts));
+                }
+            } else {
+                // Reset to 0 in case player has switch gamemode
+                if (mounts instanceof Attributable attributable) {
+                    RoadSpeed.applyRoadSpeed(attributable, 0);
+                }
             }
         }
     }
