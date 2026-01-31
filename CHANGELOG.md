@@ -1,3 +1,6 @@
+# 1.0.2
+Plugin does not crash anymore when config material list or map or gamemode is wrong. It display a warning instead.
+
 # 1.0.1
 If player gamemode has switch, the speed bonus will be reset to 0.
 
