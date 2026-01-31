@@ -52,10 +52,10 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
         return getConfig().getStringList(key).stream().map(gm -> safeMatchGameMode(gm, key)).filter(Objects::nonNull)
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(GameMode.class)));
     }
-    private Map<Material, Integer> getConfigMaterialsMap(String key) {
+    private Map<Material, Double> getConfigMaterialsMap(String key) {
         return getConfig().getConfigurationSection(key).getKeys(false).stream().map(name -> {
             Material mat = safeMatchMaterial(name, key);
-            return mat == null ? null : Map.entry(mat, getConfig().getInt(key + "." + name));
+            return mat == null ? null : Map.entry(mat, getConfig().getDouble(key + "." + name));
         }).filter(Objects::nonNull)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, () -> new EnumMap<>(Material.class)));
     }
