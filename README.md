@@ -30,3 +30,6 @@ Values need to be > -1.0.
 Negative values will slow down the mount. It can be use to make horses slower over sand for example.
 
 Any animals ridable by player can be affected, as long as it is on the ground.
+
+## Statistics
+[![bStats Graph Data](https://bstats.org/signatures/bukkit/roadspeedmounts.svg)](https://bstats.org/plugin/bukkit/BoneMealLimiter/25354)
