@@ -24,10 +24,8 @@ public class RoadSpeed {
             AttributeModifier attributeModifier = attributeInstance.getModifier(ROAD_SPEED_KEY);
             if (attributeModifier != null && speedBoost == 0) {
                 // if it was set but is now 0
-                if (attributeModifier != null) {
-                    RoadSpeedMountsPlugin.debug("Road speed modifier removed");
-                    attributeInstance.removeModifier(ROAD_SPEED_KEY);
-                }
+                RoadSpeedMountsPlugin.debug("Road speed modifier removed");
+                attributeInstance.removeModifier(ROAD_SPEED_KEY);
             } else if (attributeModifier == null || attributeModifier.getAmount() != speedBoost) {
                 RoadSpeedMountsPlugin.debug(() -> "Road speed modifier set to " + speedBoost);
                 if (attributeModifier != null) {
