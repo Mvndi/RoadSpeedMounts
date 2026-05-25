@@ -1,3 +1,6 @@
+# 1.0.5
+Support from 1.20 to 26.1.2
+
 # 1.0.3
 Minor fix
 
