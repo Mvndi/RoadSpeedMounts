@@ -2,7 +2,6 @@ package net.mvndicraft.roadspeedmounts;
 
 import java.util.EnumSet;
 import java.util.List;
-import javax.annotation.Nullable;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attributable;
@@ -13,6 +12,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 public class RoadSpeed {
     private static final NamespacedKey ROAD_SPEED_KEY = new NamespacedKey(RoadSpeedMountsPlugin.getInstance(), "road_speed");
