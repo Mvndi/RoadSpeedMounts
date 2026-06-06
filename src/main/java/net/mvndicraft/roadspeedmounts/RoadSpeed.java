@@ -8,6 +8,7 @@ import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -50,12 +51,16 @@ public class RoadSpeed {
         return passengers != null && passengers.stream().anyMatch(entity -> (entity instanceof Player player) && isAffected(player));
     }
 
+    /**
+     * Search road speed at player/mounts feet and if not found under player/mount feet.
+     */
     public static double getRoadSpeed(Entity mounts) {
-        Material material = mounts.getLocation().getBlock().getRelative(BlockFace.DOWN).getType();
+        Block block = mounts.getLocation().getBlock();
+        List<Material> materials = List.of(block.getType(), block.getRelative(BlockFace.DOWN).getType());
         EntityType entityType = mounts.getType();
 
-        double speed = RoadSpeedMountsPlugin.getInstance().getMaterialSpeedBonus(entityType, material);
-        RoadSpeedMountsPlugin.debug(() -> "Road speed for " + entityType + " and " + material + " is " + speed);
+        double speed = RoadSpeedMountsPlugin.getInstance().getMaterialSpeedBonus(entityType, materials);
+        RoadSpeedMountsPlugin.debug(() -> "Road speed for " + entityType + " and " + materials + " is " + speed);
         return speed;
     }
 }

@@ -3,6 +3,7 @@ package net.mvndicraft.roadspeedmounts;
 import co.aikar.commands.PaperCommandManager;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -44,8 +45,22 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
         debug("speedBonusMap: " + getConfig().get("speedBonusMap"));
     }
 
+    /**
+     * Get the speed bonus for the first found material or 0 if not found
+     */
+    public double getMaterialSpeedBonus(EntityType entityType, List<Material> materials) {
+        var temp = speedBonusMap.getOrDefault(entityType, Map.of());
+        for (Material material : materials) {
+            Double value = temp.get(material);
+            if (value != null) {
+                return value;
+            }
+        }
+        return 0.0D;
+    }
+
     public double getMaterialSpeedBonus(EntityType entityType, Material material) {
-        return speedBonusMap.getOrDefault(entityType, Map.of()).getOrDefault(material, 0.0);
+        return getMaterialSpeedBonus(entityType, List.of(material));
     }
 
     private Set<GameMode> getConfigGameMode(String key) {

@@ -1,3 +1,8 @@
+# 1.1.0
+Make unmounted player affected by `speed_bonus.PLAYER`
+Mud slow down player & horses in default config.
+Block that the mounts or players feets are inside can also affect speed,as for slab or mud.
+
 # 1.0.5
 Support from 1.20 to 26.1.2
 
