@@ -1,13 +1,15 @@
 plugins {
-    `java-library`
+    id("java")
     id("com.gradleup.shadow") version "9.4.1"
     `maven-publish`
+    signing // Add ./gradlew signArchives
     // checkstyle // Ensures correctly formatted code
     // pmd // Code quality checks
     id("org.sonarqube") version "7.3.0.8198" // Advanced code quality checks
     id("xyz.jpenilla.run-paper") version "3.0.2" // Paper server for testing/hotloading JVM
     id("io.papermc.hangar-publish-plugin") version "0.1.4"
     id("com.modrinth.minotaur") version "2.+" // cf https://github.com/modrinth/minotaur
+    id("org.jreleaser") version "1.24.0"
 }
 
 group = "net.mvndicraft.roadspeedmounts"
@@ -30,15 +32,19 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:$mainMinecraftVersion-R0.1-SNAPSHOT")
     // compileOnly("io.papermc.paper:paper-api:$mainMinecraftVersion.build.+")
 
+    compileOnly("net.mvndicraft.townyroads:townyroads:0.5.0")
+
     implementation("org.bstats:bstats-bukkit:3.1.0")
-    implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
+    implementation("co.aikar:acf-paper:0.5.1-20260511.221425-52") // 0.5.1-SNAPSHOT is not an OK version for Maven Central.
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.21:3.107.0")
 }
 
 java {
-  toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // 25
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // 25
+    withJavadocJar()
+    withSourcesJar()
 }
 
 sonar {
@@ -47,12 +53,6 @@ sonar {
     property("sonar.projectName", project.name)
     property("sonar.host.url", "https://mvndisonar.formiko.fr")
   }
-}
-
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
-    }
 }
 
 tasks {
@@ -91,6 +91,49 @@ tasks {
     test {
         useJUnitPlatform()
     }
+}
+
+publishing {
+  publications {
+    create<MavenPublication>("mavenJava") {
+      from(components["java"])
+
+      artifactId = project.name.lowercase()
+      pom {
+        name.set(project.name.lowercase())
+        packaging = "jar"
+        url.set("https://github.com/Mvndi/${project.name}")
+        inceptionYear.set("2024")
+        description = project.description
+        licenses {
+          license {
+            name.set("MIT license")
+            url.set("https://github.com/Mvndi/${project.name}/blob/master/LICENSE.md")
+          }
+        }
+        developers {
+          developer {
+            id.set("hydrolienf")
+            name.set("HydrolienF")
+            email.set("hydrolien.f@gmail.com")
+          }
+        }
+        scm {
+          connection.set("scm:git:git@github.com:Mvndi/${project.name}.git")
+          developerConnection.set("scm:git:ssh:git@github.com:Mvndi/${project.name}.git")
+          url.set("https://github.com/Mvndi/${project.name}")
+        }
+      }
+    }
+  }
+  repositories {
+    maven {
+        // url = layout.buildDirectory.dir("staging-deploy").get().asFile.toURI()
+        name = "PreDeploy"
+        url = uri(layout.buildDirectory.dir("pre-deploy"))
+
+    }
+  }
 }
 
 tasks.register("echoVersion") {
@@ -300,4 +343,42 @@ modrinth {
 
 tasks.named("modrinth") {
     dependsOn(tasks.named("modrinthSyncBody"))
+}
+
+jreleaser {
+    project {
+        name.set("${project.name}")
+        copyright.set("Hydrolien")
+        description.set(findProperty("description")?.toString() ?: "Default description")
+        website.set("https://github.com/Mvndi/${project.name}")
+    }
+
+    deploy {
+        maven {
+            mavenCentral {
+                create("sonatype") {
+                    active.set(org.jreleaser.model.Active.ALWAYS)
+                    url.set("https://central.sonatype.com/api/v1/publisher")
+                    username.set(findProperty("ossrhUsername")?.toString()
+                        ?: System.getenv("OSSRH_USERNAME"))
+                    password.set(findProperty("ossrhPassword")?.toString()
+                        ?: System.getenv("OSSRH_PASSWORD"))
+                    stagingRepository("build/pre-deploy")  // call as function
+
+                    applyMavenCentralRules = false
+                }
+            }
+        }
+    }
+
+    release {
+        github {
+            enabled.set(false)
+        }
+    }
+}
+
+signing {
+    useGpgCmd() // uses local gpg executable
+    sign(publishing.publications["mavenJava"])
 }
