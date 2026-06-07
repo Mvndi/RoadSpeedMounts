@@ -10,22 +10,32 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+import net.mvndicraft.roadspeedmounts.handlers.TownyHandler;
+import net.mvndicraft.roadspeedmounts.handlers.TownyRoadsHandler;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 public class RoadSpeedMountsPlugin extends JavaPlugin {
     private Map<EntityType, Map<Material, Double>> speedBonusMap;
+    private Map<EntityType, Map<Material, Double>> townySpeedBonusMap;
+    private Map<EntityType, Map<Material, Double>> townyRoadsSpeedBonusMap;
+    private boolean townyEnabled;
+    private boolean townyRoadsEnabled;
     @Override
     public void onEnable() {
         new Metrics(this, 29145);
+        initPluginBoolean();
 
         // Save config in our plugin data folder if it does not exist.
         saveDefaultConfig();
+
 
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new RoadSpeedMountsCommand());
@@ -33,34 +43,66 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MountsMoveListener(), this);
     }
 
+    private void initPluginBoolean() {
+        Plugin towny = getServer().getPluginManager().getPlugin("Towny");
+        townyEnabled = (towny != null && towny.isEnabled());
+        debug("townyEnabled: " + townyEnabled);
+
+        if (townyEnabled) {
+            Plugin townyRoads = getServer().getPluginManager().getPlugin("TownyRoads");
+            townyRoadsEnabled = (townyRoads != null && townyRoads.isEnabled());
+        }
+        debug("townyRoadsEnabled: " + townyRoadsEnabled);
+    }
+
     public static RoadSpeedMountsPlugin getInstance() { return getPlugin(RoadSpeedMountsPlugin.class); }
 
     @Override
     public void reloadConfig() {
         super.reloadConfig();
+        initPluginBoolean();
         getConfig().set("enabledGameModeEnum", getConfigGameMode("enabled_gamemode"));
         speedBonusMap = getSpeedBonusMap("speed_bonus");
-        getConfig().set("speedBonusMap", speedBonusMap);
+        if (townyEnabled) {
+            townySpeedBonusMap = getSpeedBonusMap("towny_speed_bonus");
+            if (townyRoadsEnabled) {
+                townyRoadsSpeedBonusMap = getSpeedBonusMap("towny_roads_speed_bonus");
+            }
+        }
         debug("enabledGameModeEnum: " + getConfig().get("enabledGameModeEnum"));
-        debug("speedBonusMap: " + getConfig().get("speedBonusMap"));
+        debug("speedBonusMap: " + speedBonusMap);
+        debug("townySpeedBonusMap: " + townySpeedBonusMap);
+        debug("townyRoadsSpeedBonusMap: " + townyRoadsSpeedBonusMap);
     }
 
     /**
      * Get the speed bonus for the first found material or 0 if not found
      */
-    public double getMaterialSpeedBonus(EntityType entityType, List<Material> materials) {
-        var temp = speedBonusMap.getOrDefault(entityType, Map.of());
+    public double getMaterialSpeedBonus(EntityType entityType, List<Material> materials, Location location) {
+        Map<Material, Double> speedMap = getSpeedMap(entityType, location);
         for (Material material : materials) {
-            Double value = temp.get(material);
+            Double value = speedMap.get(material);
             if (value != null) {
                 return value;
             }
         }
         return 0.0D;
     }
+    public Map<Material, Double> getSpeedMap(EntityType entityType, Location location) {
+        if (townyEnabled && townySpeedBonusMap != null && TownyHandler.isUnruinedTown(location)) {
+            debug("isUnruinedTown: true");
+            return townySpeedBonusMap.getOrDefault(entityType, Map.of());
+        } else if (townyEnabled && townyRoadsEnabled && townyRoadsSpeedBonusMap != null && TownyRoadsHandler.isValidRoad(location)) {
+            debug("isValidRoad: true");
+            return townyRoadsSpeedBonusMap.getOrDefault(entityType, Map.of());
+        } else {
+            debug("wilderness speed: true");
+            return speedBonusMap.getOrDefault(entityType, Map.of());
+        }
+    }
 
-    public double getMaterialSpeedBonus(EntityType entityType, Material material) {
-        return getMaterialSpeedBonus(entityType, List.of(material));
+    public double getMaterialSpeedBonus(EntityType entityType, Material material, Location location) {
+        return getMaterialSpeedBonus(entityType, List.of(material), location);
     }
 
     private Set<GameMode> getConfigGameMode(String key) {

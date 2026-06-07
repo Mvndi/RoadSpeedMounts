@@ -1,3 +1,7 @@
+# 1.2.0
+Add Towny & TownyRoads compatibility.
+Speed can be define differently on roads, in towns or in wilderness.
+
 # 1.1.0
 Make unmounted player affected by `speed_bonus.PLAYER`
 Mud slow down player & horses in default config.

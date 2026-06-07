@@ -2,6 +2,7 @@ package net.mvndicraft.roadspeedmounts;
 
 import java.util.EnumSet;
 import java.util.List;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attributable;
@@ -55,11 +56,12 @@ public class RoadSpeed {
      * Search road speed at player/mounts feet and if not found under player/mount feet.
      */
     public static double getRoadSpeed(Entity mounts) {
-        Block block = mounts.getLocation().getBlock();
+        Location location = mounts.getLocation();
+        Block block = location.getBlock();
         List<Material> materials = List.of(block.getType(), block.getRelative(BlockFace.DOWN).getType());
         EntityType entityType = mounts.getType();
 
-        double speed = RoadSpeedMountsPlugin.getInstance().getMaterialSpeedBonus(entityType, materials);
+        double speed = RoadSpeedMountsPlugin.getInstance().getMaterialSpeedBonus(entityType, materials, location);
         RoadSpeedMountsPlugin.debug(() -> "Road speed for " + entityType + " and " + materials + " is " + speed);
         return speed;
     }

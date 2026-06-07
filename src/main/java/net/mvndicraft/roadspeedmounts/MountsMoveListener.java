@@ -22,6 +22,7 @@ public class MountsMoveListener implements Listener {
     private void applyRoadSpeed(Entity entity, boolean toZero) {
         if (entity instanceof Attributable attributable) {
             RoadSpeedMountsPlugin.debug(() -> "Attributable affected: " + attributable);
+            RoadSpeedMountsPlugin.debug(() -> "toZero: " + toZero);
             RoadSpeed.applyRoadSpeed(attributable, toZero ? 0 : RoadSpeed.getRoadSpeed(entity));
         }
     }

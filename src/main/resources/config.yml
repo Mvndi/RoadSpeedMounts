@@ -25,3 +25,37 @@ speed_bonus:
     SUSPICIOUS_SAND: 0.4
     SAND: 0.2
     MUD: -0.5
+
+# Same as speed_bonus but inside town.
+towny_speed_bonus:
+  PLAYER:
+    SUSPICIOUS_GRAVEL: 0.4
+    GRAVEL: 0.1
+    SAND: -0.1
+    MUD: -0.2
+  HORSE:
+    SUSPICIOUS_GRAVEL: 0.6
+    GRAVEL: 0.2
+    SAND: -0.3
+    MUD: -0.5
+  CAMEL:
+    SUSPICIOUS_SAND: 0.4
+    SAND: 0.2
+    MUD: -0.5
+
+# Same as speed_bonus but in roads.
+towny_roads_speed_bonus:
+  PLAYER:
+    SUSPICIOUS_GRAVEL: 0.4
+    GRAVEL: 0.1
+    SAND: -0.1
+    MUD: -0.2
+  HORSE:
+    SUSPICIOUS_GRAVEL: 0.6
+    GRAVEL: 0.2
+    SAND: -0.3
+    MUD: -0.5
+  CAMEL:
+    SUSPICIOUS_SAND: 0.4
+    SAND: 0.2
+    MUD: -0.5

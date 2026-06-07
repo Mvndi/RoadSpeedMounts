@@ -13,10 +13,12 @@ plugins {
 }
 
 group = "net.mvndicraft.roadspeedmounts"
-version = "1.1.0"
+version = "1.2.0"
 description = "Increase mouts (horse, cammel etc.) speed when riding over specific blocks"
 val mainMinecraftVersion = "1.21.11" // 26.1.2
 val supportedMinecraftVersions = "1.20 - 26.1.2"
+val townyVersion = "0.103.0.0"
+val townyRoadsVersion = "0.5.0"
 
 
 repositories {
@@ -26,13 +28,15 @@ repositories {
     // Paper
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.aikar.co/content/groups/aikar/")
+    maven("https://repo.glaremasters.me/repository/towny/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$mainMinecraftVersion-R0.1-SNAPSHOT")
     // compileOnly("io.papermc.paper:paper-api:$mainMinecraftVersion.build.+")
 
-    compileOnly("net.mvndicraft.townyroads:townyroads:0.5.0")
+    compileOnly("com.palmergames.bukkit.towny:towny:$townyVersion")
+    compileOnly("net.mvndicraft.townyroads:townyroads:$townyRoadsVersion")
 
     implementation("org.bstats:bstats-bukkit:3.1.0")
     implementation("co.aikar:acf-paper:0.5.1-20260511.221425-52") // 0.5.1-SNAPSHOT is not an OK version for Maven Central.
@@ -86,6 +90,11 @@ tasks {
 
     runServer {
         minecraftVersion("$mainMinecraftVersion")
+        downloadPlugins {
+            modrinth("towny", "$townyVersion")
+            // modrinth("coreprotect", "$coreprotectVersion")
+            url("https://github.com/Mvndi/TownyRoads/releases/download/0.5.2/TownyRoads-0.5.2.jar")
+        }
     }
 
     test {
