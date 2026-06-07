@@ -15,7 +15,7 @@ Minecraft plugin to increase mounts (horse, cammel etc.) speed when riding over 
 
 ## Usage
 
-Download the latest version from [the releases][downloadLink]. Start your server. Edit the config to match your expected limitation. Then reload ingame with `/rsm reload`.
+Download the latest version. Start your server. Edit the config to match your expected limitation. Then reload ingame with `/rsm reload`.
 
 Each time you change the configuration, reload or restart your server.
 
@@ -29,7 +29,15 @@ Values need to be > -1.0.
 
 Negative values will slow down the mount. It can be use to make horses slower over sand for example.
 
-Any animals ridable by player can be affected, as long as it is on the ground.
+Any entity ridable by player can be affected, as long as it is on the ground.
+The player itself can be affected if there is no mounts and PLAYER is set in the config.
+
+## Compatibility
+
+This plugin is compatible with Towny & TownyRoads.
+It is a soft dependency, the plugin still works on his own.
+If Towny is installed, mounts speed can be set up for inside the towns.
+If TownyRoads is installed, mounts speed can be set up for on the roads.
 
 ## Statistics
 [![bStats Graph Data](https://bstats.org/signatures/bukkit/roadspeedmounts.svg)](https://bstats.org/plugin/bukkit/BoneMealLimiter/25354)
