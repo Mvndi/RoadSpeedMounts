@@ -14,6 +14,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class RoadSpeed {
@@ -41,8 +42,13 @@ public class RoadSpeed {
     }
 
     public static boolean isAffected(@Nullable Player player) {
-        return player != null && RoadSpeedMountsPlugin.getInstance().getConfig().getObject("enabledGameModeEnum", EnumSet.class)
-                .contains(player.getGameMode());
+        return player != null && isYLevelOK(player) && RoadSpeedMountsPlugin.getInstance().getConfig()
+                .getObject("enabledGameModeEnum", EnumSet.class).contains(player.getGameMode());
+    }
+    public static boolean isYLevelOK(@NotNull Player player) {
+        return RoadSpeedMountsPlugin.getInstance().getYLevelTestEnabled()
+                && RoadSpeedMountsPlugin.getInstance().getMinYLevel() <= player.getLocation().getBlockY()
+                && RoadSpeedMountsPlugin.getInstance().getMaxYLevel() >= player.getLocation().getBlockY();
     }
 
     /**

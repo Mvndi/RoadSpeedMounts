@@ -6,6 +6,11 @@ enabled_gamemode:
   - SURVIVAL
   - CREATIVE
 
+# Min y level so that road has an effect. Disable with -2147483648.
+min_y: -2147483648
+# Max y level so that road has an effect. Disable with 2147483647. Need to be > min_y
+max_y: 2147483647
+
 # Road blocks speed bonus per entity and per block.
 # Values need to be > -1.0.
 # 0 = default speed, 0.5 = 50% faster, -0.3 = 30% slower, 1.0 = 100% faster, 3.0 = 300% faster etc.

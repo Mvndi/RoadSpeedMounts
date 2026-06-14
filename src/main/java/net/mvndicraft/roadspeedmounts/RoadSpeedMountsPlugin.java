@@ -28,6 +28,7 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
     private Map<EntityType, Map<Material, Double>> townyRoadsSpeedBonusMap;
     private boolean townyEnabled;
     private boolean townyRoadsEnabled;
+    private boolean yLevelTestEnabled;
     @Override
     public void onEnable() {
         new Metrics(this, 29145);
@@ -69,10 +70,14 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
                 townyRoadsSpeedBonusMap = getSpeedBonusMap("towny_roads_speed_bonus");
             }
         }
+        yLevelTestEnabled = getMinYLevel() != Integer.MIN_VALUE || getMaxYLevel() != Integer.MAX_VALUE;
         debug("enabledGameModeEnum: " + getConfig().get("enabledGameModeEnum"));
         debug("speedBonusMap: " + speedBonusMap);
         debug("townySpeedBonusMap: " + townySpeedBonusMap);
         debug("townyRoadsSpeedBonusMap: " + townyRoadsSpeedBonusMap);
+        debug("yLevelTestEnabled: " + yLevelTestEnabled);
+        debug("minYLevel: " + getMinYLevel());
+        debug("maxYLevel: " + getMaxYLevel());
     }
 
     /**
@@ -160,6 +165,10 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
 
         return result;
     }
+
+    public boolean getYLevelTestEnabled() { return yLevelTestEnabled; }
+    public int getMaxYLevel() { return getConfig().getInt("max_y", Integer.MAX_VALUE); }
+    public int getMinYLevel() { return getConfig().getInt("min_y", Integer.MIN_VALUE); }
 
 
     // Usual log with debug level

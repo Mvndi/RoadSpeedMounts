@@ -1,3 +1,6 @@
+# 1.3.0
+New config option to disable roads speed modifier under a y level or over a y level.
+
 # 1.2.0
 Add Towny & TownyRoads compatibility.
 Speed can be define differently on roads, in towns or in wilderness.
