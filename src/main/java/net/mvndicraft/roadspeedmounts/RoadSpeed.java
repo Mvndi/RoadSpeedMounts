@@ -64,6 +64,14 @@ public class RoadSpeed {
     public static double getRoadSpeed(Entity mounts) {
         Location location = mounts.getLocation();
         Block block = location.getBlock();
+        // if is jumping or falling, search under
+        if (RoadSpeedMountsPlugin.getInstance().isSpeedBonusWhenJumping()) {
+            int k = 0;
+            while (block.getType() == Material.AIR && k < 3) {
+                block = block.getRelative(BlockFace.DOWN);
+                k++;
+            }
+        }
         List<Material> materials = List.of(block.getType(), block.getRelative(BlockFace.DOWN).getType());
         EntityType entityType = mounts.getType();
 

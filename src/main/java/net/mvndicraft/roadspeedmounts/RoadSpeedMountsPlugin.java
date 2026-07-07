@@ -78,6 +78,7 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
         debug("yLevelTestEnabled: " + yLevelTestEnabled);
         debug("minYLevel: " + getMinYLevel());
         debug("maxYLevel: " + getMaxYLevel());
+        debug("isSpeedBonusWhenJumping: " + isSpeedBonusWhenJumping());
     }
 
     /**
@@ -169,6 +170,7 @@ public class RoadSpeedMountsPlugin extends JavaPlugin {
     public boolean getYLevelTestEnabled() { return yLevelTestEnabled; }
     public int getMaxYLevel() { return getConfig().getInt("max_y", Integer.MAX_VALUE); }
     public int getMinYLevel() { return getConfig().getInt("min_y", Integer.MIN_VALUE); }
+    public boolean isSpeedBonusWhenJumping() { return getConfig().getBoolean("speed_bonus_when_jumping", true); }
 
 
     // Usual log with debug level
