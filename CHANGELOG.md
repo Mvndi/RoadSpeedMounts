@@ -1,3 +1,6 @@
+# 1.4.0
+New config option to enable or disable road speed when jumping.
+
 # 1.3.0
 New config option to disable roads speed modifier under a y level or over a y level.
 

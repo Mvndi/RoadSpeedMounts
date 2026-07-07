@@ -11,7 +11,9 @@ min_y: -2147483648
 # Max y level so that road has an effect. Disable with 2147483647. Need to be > min_y
 max_y: 2147483647
 
-# Enable road speed boost when player is jumping or falling 1 block over the road.
+# Enable road speed boost when player is jumping or falling 1 to 3 blocks over the road.
+# You probably want to enable this, else the sprint jumping effect will slow down every jumps and zoom in and out the player screen.
+# Default: true
 speed_bonus_when_jumping: true
 
 # Road blocks speed bonus per entity and per block.
