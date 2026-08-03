@@ -1,3 +1,6 @@
+# 1.4.1
+Support from 1.20 to 26.2
+
 # 1.4.0
 New config option to enable or disable road speed when jumping.
 
