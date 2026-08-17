@@ -47,8 +47,8 @@ public class RoadSpeed {
     }
     public static boolean isYLevelOK(@NotNull Player player) {
         return !RoadSpeedMountsPlugin.getInstance().getYLevelTestEnabled()
-                && RoadSpeedMountsPlugin.getInstance().getMinYLevel() <= player.getLocation().getBlockY()
-                && RoadSpeedMountsPlugin.getInstance().getMaxYLevel() >= player.getLocation().getBlockY();
+                || (RoadSpeedMountsPlugin.getInstance().getMinYLevel() <= player.getLocation().getBlockY()
+                        && RoadSpeedMountsPlugin.getInstance().getMaxYLevel() >= player.getLocation().getBlockY());
     }
 
     /**
