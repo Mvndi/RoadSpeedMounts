@@ -40,7 +40,7 @@ If Towny is installed, mounts speed can be set up for inside the towns.
 If TownyRoads is installed, mounts speed can be set up for on the roads.
 
 ## Statistics
-[![bStats Graph Data](https://bstats.org/signatures/bukkit/roadspeedmounts.svg)](https://bstats.org/plugin/bukkit/BoneMealLimiter/25354)
+[![bStats Graph Data](https://bstats.org/signatures/bukkit/roadspeedmounts.svg)](https://bstats.org/plugin/bukkit/RoadSpeedMounts/29145)
 
 # Build, Test & deploy
 
