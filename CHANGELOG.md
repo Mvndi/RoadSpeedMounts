@@ -1,3 +1,6 @@
+# 1.4.3
+Support from 1.20 to 26.3
+
 # 1.4.2
 Fix y level limit config returning always false.
 
